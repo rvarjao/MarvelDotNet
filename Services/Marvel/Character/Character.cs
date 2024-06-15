@@ -17,6 +17,9 @@ namespace Marvel.Services.Marvel.Character
         private readonly IConfiguration _configuration;
         private readonly string baseUrl = "http://gateway.marvel.com/v1/public";
 
+        public int id { get; set; }
+        public int offset { get; set; }
+
         public Character()
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
@@ -30,13 +33,23 @@ namespace Marvel.Services.Marvel.Character
                 .Build();
         }
 
-        public async Task<string> Get(int? id = null, int? offset = null, int? limit = null)
+        public async Task<string> Get()
         {
             string PUBLIC_KEY = _configuration["Marvel:API_KEY:PUBLIC"] ?? "";
             string PRIVATE_KEY = _configuration["Marvel:API_KEY:PRIVATE"] ?? "";
             string timestamp = DateTime.Now.Ticks.ToString();
             string hash = Marvel.Utility.Hash.CreateHash(PUBLIC_KEY, PRIVATE_KEY, timestamp);
             string url = $"{baseUrl}/characters?apikey={PUBLIC_KEY}&hash={hash}&ts={timestamp}";
+
+            if (this.id > 0)
+            {
+                url = $"{url}&id={this.id}";
+            }
+
+            if (this.offset > 0)
+            {
+                url = $"{url}&offset={this.offset}";
+            }
 
             try
             {
@@ -67,6 +80,8 @@ namespace Marvel.Services.Marvel.Character
                 _httpClient.Dispose();
             }
         }
+
+        
 
     }
 }

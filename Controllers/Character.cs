@@ -10,9 +10,24 @@ namespace Marvel.Controllers
         {
         }
 
+        public HttpRequest GetRequest()
+        {
+            return Request;
+        }
+
         public IActionResult Index()
         {
             Services.Marvel.Character.Character characters = new Services.Marvel.Character.Character();
+
+            // get from query string passed in the controller call
+            int offset = 0;
+            if (Request.Query.ContainsKey("offset"))
+            {
+                offset = int.Parse(s: Request.Query["offset"]);
+            }
+
+            characters.offset = offset;
+
             string allCharacter = characters.Get().Result;
             Models.Marvel.APIReturn? aPIReturn = System.Text.Json.JsonSerializer.Deserialize<Models.Marvel.APIReturn>(allCharacter);
             List<Models.Marvel.Character>? charactersList = aPIReturn?.data.results;

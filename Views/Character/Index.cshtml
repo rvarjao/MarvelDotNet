@@ -1,11 +1,11 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Characters";
 }
 
 @model List<Marvel.Models.Marvel.Character>
 
-<div class="container">
-    <div class="row">
+<div class="container h-100">
+    <div class="row h-100 overflow-auto">
         <div class="col-3">
             <ul class="list-group">
                 @foreach(var character in Model)
@@ -13,6 +13,9 @@
                     <partial name="ListElement" model="character" />
                 }
             </ul>
+        </div>
+        <div class="col">
+
         </div>
     </div>
 </div>

@@ -1,0 +1,16 @@
+﻿
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model Marvel.Models.Marvel.Character
+
+<div class="card" style="width:10rem">
+    <img src="@Model.thumbnailUrl()" class="card-img-top" alt="@Model.name" height="100" style="object-fit:cover">
+    <div class="card-header">
+        @Model.name
+    </div>
+    <div class="card-body">
+        
+    </div>
+</div>

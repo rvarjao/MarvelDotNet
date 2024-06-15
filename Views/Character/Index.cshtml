@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model List<Marvel.Models.Marvel.Character>
+
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <ul class="list-group">
+                @foreach(var character in Model)
+                {
+                    <partial name="ListElement" model="character" />
+                }
+            </ul>
+        </div>
+    </div>
+</div>

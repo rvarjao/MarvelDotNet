@@ -13,6 +13,13 @@ COPY ["Marvel.csproj", "."]
 RUN dotnet restore "./Marvel.csproj"
 COPY . .
 WORKDIR "/src/."
+
+RUN apt-get update \
+	&& apt-get install -y curl
+
+RUN sed -i 's/CipherString = DEFAULT@SECLEVEL=2/CipherString = DEFAULT@SECLEVEL=1/' /etc/ssl/openssl.cnf
+
+
 RUN dotnet build "./Marvel.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
@@ -23,3 +30,5 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Marvel.dll"]
+
+

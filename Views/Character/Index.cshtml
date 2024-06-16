@@ -2,17 +2,19 @@
     ViewData["Title"] = "Characters";
 }
 
-@model List<Marvel.Models.Marvel.Character>
+@model Marvel.Models.Marvel.Data
 
 <div class="container h-100">
     <div class="row h-100 overflow-auto">
         <div class="col-3">
             <ul class="list-group">
-                @foreach(var character in Model)
+                @foreach(var character in Model.results)
                 {
                     <partial name="ListElement" model="character" />
                 }
             </ul>
+            <partial name="NavigationBar/Bar" model="Model"/>
+
         </div>
         <div class="col">
 

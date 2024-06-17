@@ -55,24 +55,17 @@ namespace Marvel.Services.Marvel.Character
             {
                 HttpResponseMessage response = await _httpClient.GetAsync(url);
 
-                if (response.IsSuccessStatusCode)
-                {                        
-                    string result = await response.Content.ReadAsStringAsync();
-                    Models.Marvel.APIReturn? aPIReturn = System.Text.Json.JsonSerializer.Deserialize<Models.Marvel.APIReturn>(result);
-                    Console.WriteLine(aPIReturn.data);
-                    return result;
-                    
+                if (!response.IsSuccessStatusCode)
+                {   
+                    return "Error: " + response.Content.ReadAsStringAsync();
                 }
-                else
-                {
-                    return "Error";
-                }
+
+                string result = await response.Content.ReadAsStringAsync();
+                return result;
             }
             catch (HttpRequestException ex)
             {
                 string response = ex.ToString();
-
-
                 return $"Error\n---\n{url}\n---\n{response}";
             }
             finally
